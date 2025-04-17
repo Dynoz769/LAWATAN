@@ -1,1 +1,768 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Album Kenangan Lawatan Ceria</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #FF9F1C, #FFBF69);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('/api/placeholder/1200/300');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.2;
+            z-index: 0;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header-content h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .header-content p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .filter-navbar {
+            background-color: white;
+            padding: 20px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .day-filters {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .day-filter {
+            padding: 12px 25px;
+            background-color: #f0f2f5;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .day-filter.active {
+            background: linear-gradient(135deg, #FF9F1C, #FFBF69);
+            color: white;
+            box-shadow: 0 4px 10px rgba(255, 159, 28, 0.4);
+        }
+        
+        .day-filter:hover {
+            transform: translateY(-2px);
+        }
+        
+        .day-section {
+            margin: 50px 0;
+        }
+        
+        .day-heading {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #FFBF69;
+        }
+        
+        .day-heading h2 {
+            font-size: 2rem;
+            margin-right: 15px;
+            color: #FF9F1C;
+        }
+        
+        .day-info {
+            font-size: 1rem;
+            color: #888;
+            font-weight: 500;
+        }
+        
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .photo-card {
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .photo-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .photo-container {
+            position: relative;
+            height: 240px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .photo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .photo-card:hover .photo-container img {
+            transform: scale(1.05);
+        }
+        
+        .photo-info {
+            padding: 20px;
+        }
+        
+        .photo-title {
+            font-weight: 700;
+            margin-bottom: 8px;
+            font-size: 1.2rem;
+            color: #333;
+        }
+        
+        .photo-description {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .photo-location {
+            font-size: 0.85rem;
+            color: #888;
+            display: flex;
+            align-items: center;
+        }
+        
+        .location-icon {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background: linear-gradient(135deg, #FF9F1C, #FFBF69);
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .footer {
+            background: linear-gradient(135deg, #FF9F1C, #FFBF69);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            margin-top: 60px;
+            position: relative;
+        }
+        
+        .footer::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('/api/placeholder/1200/300');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .footer-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .footer p {
+            opacity: 0.9;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        @media (max-width: 768px) {
+            .day-filters {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            .day-filter {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+            
+            .header-content h1 {
+                font-size: 2.2rem;
+            }
+            
+            .photo-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 20px;
+            }
+            
+            .photo-container {
+                height: 200px;
+            }
+        }
+        
+        /* Lightbox dengan latar blur */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+        }
+        
+        .lightbox-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            filter: blur(20px);
+            opacity: 0.9;
+            transform: scale(1.1);
+        }
+        
+        .lightbox-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+        }
+        
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90vh;
+            z-index: 10;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .lightbox img {
+            max-width: 100%;
+            max-height: 80vh;
+            display: block;
+        }
+        
+        .lightbox-info {
+            background-color: white;
+            padding: 20px;
+        }
+        
+        .lightbox-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .lightbox-desc {
+            font-size: 0.95rem;
+            color: #666;
+        }
+        
+        .close-lightbox {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+            z-index: 20;
+            background-color: rgba(0,0,0,0.3);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+        }
+        
+        .close-lightbox:hover {
+            background-color: rgba(0,0,0,0.5);
+        }
+        
+        /* Bubble effects */
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            animation: float 8s infinite ease-in-out;
+        }
+        
+        .bubble-1 {
+            width: 80px;
+            height: 80px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .bubble-2 {
+            width: 50px;
+            height: 50px;
+            top: 20%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+        
+        .bubble-3 {
+            width: 70px;
+            height: 70px;
+            bottom: 20%;
+            left: 20%;
+            animation-delay: 1s;
+        }
+        
+        .bubble-4 {
+            width: 40px;
+            height: 40px;
+            bottom: 30%;
+            right: 10%;
+            animation-delay: 3s;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) scale(1);
+            }
+            50% {
+                transform: translateY(-20px) scale(1.1);
+            }
+        }
+        
+        /* Badge untuk menandakan gambar baharu */
+        .new-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, #FF5722, #FF9800);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            box-shadow: 0 3px 8px rgba(255, 87, 34, 0.3);
+            z-index: 5;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="bubble bubble-1"></div>
+        <div class="bubble bubble-2"></div>
+        <div class="bubble bubble-3"></div>
+        <div class="bubble bubble-4"></div>
+        <div class="container">
+            <div class="header-content">
+                <h1>Album Kenangan Ceria</h1>
+                <p>Menyimpan kenangan indah perjalanan tiga hari yang penuh keceriaan dan kegembiraan</p>
+            </div>
+        </div>
+    </header>
+    
+    <nav class="filter-navbar">
+        <div class="container">
+            <div class="day-filters">
+                <div class="day-filter active" onclick="filterDay('semua')">Semua Kenangan</div>
+                <div class="day-filter" onclick="filterDay('hari1')">Hari Pertama</div>
+                <div class="day-filter" onclick="filterDay('hari2')">Hari Kedua</div>
+                <div class="day-filter" onclick="filterDay('hari3')">Hari Ketiga</div>
+            </div>
+        </div>
+    </nav>
+    
+    <main class="container">
+        <!-- Hari Pertama -->
+        <section id="hari1" class="day-section">
+            <div class="day-heading">
+                <h2>Hari Pertama</h2>
+                <div class="day-info">15 April 2025 • Keceriaan di Bandar</div>
+            </div>
+            
+            <div class="photo-grid">
+                <div class="photo-card">
+                    <div class="new-badge">Baru</div>
+                    <div class="photo-container" onclick="openLightbox('/api/placeholder/800/600', 'Pemandangan Indah Bandar', 'Menikmati keindahan bandar dari sudut atas')">
+                        <img src="/api/placeholder/800/600" alt="Pemandangan Bandar">
+                    </div>
+                    <div class="photo-info">
+                        <div class="photo-title">Pemandangan Indah Bandar</div>
+                        <div class="photo-description">Menikmati keindahan bandar dari sudut atas</div>
+                        <div class="photo-location">
+                            <span class="location-icon"></span> Menara Pandang
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="photo-card">
+                    <div class="photo-container" onclick="openLightbox('/api/placeholder/800/600', 'Sarapan Pagi Istimewa', 'Hidangan sarapan yang lazat di kafe tempatan')">
+                        <img src="/api/placeholder/800/600" alt="Sarapan di Kafe">
+                    </div>
+                    <div class="photo-info">
+                        <div class="photo-title">Sarapan Pagi Istimewa</div>
+                        <div class="photo-description">Hidangan sarapan yang lazat di kafe tempatan</div>
+                        <div class="photo-location">
+                            <span class="location-icon"></span> Kafe Selamat Pagi
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="photo-card">
+                    <div class="photo-container" onclick="openLightbox('/api/placeholder/800/600', 'Kunjungan ke Muzium', 'Mempelajari sejarah dan budaya tempatan')">
+                        <img src="/api/placeholder/800/600" alt="Muzium Nasional">
+                    </div>
+                    <div class="photo-info">
+                        <div class="photo-title">Kunjungan ke Muzium</div>
+                        <div class="photo-description">Mempelajari sejarah dan budaya tempatan</div>
+                        <div class="photo-location">
+                            <span class="location-icon"></span> Muzium Nasional
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="photo-card">
+                    <div class="photo-container" onclick="openLightbox('/api/placeholder/800/600', 'Makan Malam Bersama', 'Menikmati hidangan malam yang istimewa')">
+                        <img src="/api/placeholder/800/600" alt="Makan Malam">
+                    </div>
+                    <div class="photo-info">
+                        <div class="photo-title">Makan Malam Bersama</div>
+                        <div class="photo-description">Menikmati hidangan malam yang istimewa</div>
+                        <div class="photo-location">
+                            <span class="location-icon"></span> Restoran Mercu Rasa
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Hari Kedua -->
+        <section id="hari2" class="day-section">
+            <div class="day-heading">
+                <h2>Hari Kedua</h2>
+                <div class="day-info">16 April 2025 • Kemerahan Desa Budaya</div>
+            </div>
+            
+            <div class="photo-grid">
+                <div class="photo-card">
+                    <div class="photo-container" onclick="openLightbox('/api/placeholder/800/600', 'Kunjungan ke Desa Budaya', 'Menghayati kehidupan desa yang autentik')">
+                        <img src="/api/placeholder/800/600" alt="Desa Budaya">
+                    </div>
+                    <div class="photo-info">
+                        <div class="photo-title">Kunjungan ke Desa Budaya</div>
+                        <div class="photo-description">Menghayati kehidupan desa yang autentik</div>
+                        <div class="photo-location">
+                            <span class="location-icon"></span> Kampung Warisan
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="photo-card">
+                    <div class="new-badge">Baru</div>
+                    <div class="photo-container" onclick="openLightbox('/api/placeholder/800/600', 'Persembahan Tarian', 'Menyaksikan persembahan tarian tradisional')">
+                        <img src="/api/placeholder/800/600" alt="Tarian Tradisional">
+                    </div>
+                    <div class="photo-info">
+                        <div class="photo-title">Persembahan Tarian</div>
+                        <div class="photo-description">Menyaksikan persembahan tarian tradisional</div>
+                        <div class="photo-location">
+                            <span class="location-icon"></span> Dewan Budaya
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="photo-card">
+                    <div class="photo-container" onclick="openLightbox('/api/placeholder/800/600', 'Hidangan Tradisional', 'Mencuba pelbagai masakan tradisional')">
+                        <img src="/api/placeholder/800/600" alt="Makanan Tradisional">
+                    </div>
+                    <div class="photo-info">
+                        <div class="photo-title">Hidangan Tradisional</div>
+                        <div class="photo-description">Mencuba pelbagai masakan tradisional</div>
+                        <div class="photo-location">
+                            <span class="location-icon"></span> Pasar Tradisi
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="photo-card">
+                    <div class="photo-container" onclick="openLightbox('/api/placeholder/800/600', 'Aktiviti Petang', 'Mempelajari kraf tangan tradisional')">
+                        <img src="/api/placeholder/800/600" alt="Aktiviti Petang">
+                    </div>
+                    <div class="photo-info">
+                        <div class="photo-title">Aktiviti Petang</div>
+                        <div class="photo-description">Mempelajari kraf tangan tradisional</div>
+                        <div class="photo-location">
+                            <span class="location-icon"></span> Pusat Kraf
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Hari Ketiga -->
+        <section id="hari3" class="day-section">
+            <div class="day-heading">
+                <h2>Hari Ketiga</h2>
+                <div class="day-info">17 April 2025 • Keindahan Semula Jadi</div>
+            </div>
+            
+            <div class="photo-grid">
+                <div class="photo-card">
+                    <div class="photo-container" onclick="openLightbox('/api/placeholder/800/600', 'Pagi di Tepi Tasik', 'Menikmati ketenangan alam pagi')">
+                        <img src="/api/placeholder/800/600" alt="Tasik">
+                    </div>
+                    <div class="photo-info">
+                        <div class="photo-title">Pagi di Tepi Tasik</div>
+                        <div class="photo-description">Menikmati ketenangan alam pagi</div>
+                        <div class="photo-location">
+                            <span class="location-icon"></span> Tasik Biru
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="photo-card">
+                    <div class="photo-container" onclick="openLightbox('/api/placeholder/800/600', 'Aktiviti Memancing', 'Pengalaman memancing yang menyeronokkan')">
+                        <img src="/api/placeholder/800/600" alt="Aktiviti Memancing">
+                    </div>
+                    <div class="photo-info">
+                        <div class="photo-title">Aktiviti Memancing</div>
+                        <div class="photo-description">Pengalaman memancing yang menyeronokkan</div>
+                        <div class="photo-location">
+                            <span class="location-icon"></span> Jeti Tasik
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="photo-card">
+                    <div class="new-badge">Baru</div>
+                    <div class="photo-container" onclick="openLightbox('/api/placeholder/800/600', 'Piknik Tengahari', 'Bersantai sambil menikmati pemandangan')">
+                        <img src="/api/placeholder/800/600" alt="Piknik">
+                    </div>
+                    <div class="photo-info">
+                        <div class="photo-title">Piknik Tengahari</div>
+                        <div class="photo-description">Bersantai sambil menikmati pemandangan</div>
+                        <div class="photo-location">
+                            <span class="location-icon"></span> Taman Rekreasi
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="photo-card">
+                    <div class="photo-container" onclick="openLightbox('/api/placeholder/800/600', 'Kenangan Terakhir', 'Foto berkumpulan sebelum berpisah')">
+                        <img src="/api/placeholder/800/600" alt="Foto Berkumpulan">
+                    </div>
+                    <div class="photo-info">
+                        <div class="photo-title">Kenangan Terakhir</div>
+                        <div class="photo-description">Foto berkumpulan sebelum berpisah</div>
+                        <div class="photo-location">
+                            <span class="location-icon"></span> Pintu Keluar Taman
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="footer">
+        <div class="bubble bubble-1"></div>
+        <div class="bubble bubble-2"></div>
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 Album Kenangan Ceria. Dibuat Khas Dengan Penuh Kegembiraan Untuk Anda.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        function filterDay(day) {
+            // Dapatkan semua elemen filter dan bahagian hari
+            const filters = document.querySelectorAll('.day-filter');
+            const sections = document.querySelectorAll('.day-section');
+            
+            // Buang kelas active dari semua filter
+            filters.forEach(filter => filter.classList.remove('active'));
+            
+            // Tambah kelas active ke filter yang dipilih
+            document.querySelector(`.day-filter[onclick="filterDay('${day}')"]`).classList.add('active');
+            
+            // Paparkan semua bahagian atau hanya bahagian yang dipilih
+            if (day === 'semua') {
+                sections.forEach(section => {
+                    section.style.display = 'block';
+                    // Animasi kemunculan
+                    section.style.opacity = '0';
+                    setTimeout(() => {
+                        section.style.transition = 'opacity 0.5s ease';
+                        section.style.opacity = '1';
+                    }, 10);
+                });
+            } else {
+                sections.forEach(section => {
+                    if (section.id === day) {
+                        section.style.display = 'block';
+                        // Animasi kemunculan
+                        section.style.opacity = '0';
+                        setTimeout(() => {
+                            section.style.transition = 'opacity 0.5s ease';
+                            section.style.opacity = '1';
+                        }, 10);
+                    } else {
+                        section.style.display = 'none';
+                    }
+                });
+            }
+        }
+        
+        // Fungsi untuk paparan imej dalam lightbox dengan latar belakang blur
+        function openLightbox(imageSrc, title, description) {
+            const lightbox = document.createElement('div');
+            lightbox.className = 'lightbox';
+            
+            // Latar belakang blur
+            const bgBlur = document.createElement('div');
+            bgBlur.className = 'lightbox-bg';
+            bgBlur.style.backgroundImage = `url(${imageSrc})`;
+            
+            // Lapisan overlay untuk menggelapkan latar belakang blur
+            const overlay = document.createElement('div');
+            overlay.className = 'lightbox-overlay';
+            
+            const closeBtn = document.createElement('span');
+            closeBtn.className = 'close-lightbox';
+            closeBtn.innerHTML = '&times;';
+            closeBtn.onclick = () => document.body.removeChild(lightbox);
+            
+            const contentContainer = document.createElement('div');
+            contentContainer.className = 'lightbox-content';
+            
+            const image = document.createElement('img');
+            image.src = imageSrc;
+            
+            // Tambah maklumat gambar
+            const infoDiv = document.createElement('div');
+            infoDiv.className = 'lightbox-info';
+            
+            const titleDiv = document.createElement('div');
+            titleDiv.className = 'lightbox-title';
+            titleDiv.textContent = title;
+            
+            const descDiv = document.createElement('div');
+            descDiv.className = 'lightbox-desc';
+            descDiv.textContent = description;
+            
+            infoDiv.appendChild(titleDiv);
+            infoDiv.appendChild(descDiv);
+            
+            contentContainer.appendChild(image);
+            contentContainer.appendChild(infoDiv);
+            
+            lightbox.appendChild(bgBlur);
+            lightbox.appendChild(overlay);
+            lightbox.appendChild(closeBtn);
+            lightbox.appendChild(contentContainer);
+            
+            document.body.appendChild(lightbox);
+            
+            // Animasi masuk
+            lightbox.style.opacity = '0';
+            setTimeout(() => {
+                lightbox.style.transition = 'opacity 0.3s ease';
+                lightbox.style.opacity = '1';
+            }, 10);
+            
+            lightbox.onclick = (e) => {
+                if (e.target === lightbox || e.target === overlay) {
+                    // Animasi keluar
+                    lightbox.style.opacity = '0';
+                    setTimeout(() => {
+                        document.body.removeChild(lightbox);
+                    }, 300);
+                }
+            };
+        }
+        
+        // Tambah animasi pada kad foto apabila muncul
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.photo-card');
+            
+            // Animasi kad
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
 
+</html>
